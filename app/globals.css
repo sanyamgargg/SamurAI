@@ -117,7 +117,8 @@
     @apply border-border outline-ring/50 transition-all duration-200 ease-in-out;
   }
   body {
-    @apply bg-background text-foreground;
+    background: linear-gradient(180deg, #0e0e10 0%, #18181b 50%, #0e0e10 100%);
+    @apply text-foreground;
   }
   button {
     @apply hover:scale-105 active:scale-95 transition-transform duration-200 ease-in-out;
