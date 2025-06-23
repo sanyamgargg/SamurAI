@@ -2,9 +2,10 @@
 import { FileText } from 'lucide-react';
 import { Button } from "../ui/button";
 import NavLink from "./nav-link";
+import { SignedIn, SignedOut, SignIn, UserButton } from '@clerk/nextjs';
 
 export default function Header() {
-    const isLoggedOut = true;
+    
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center py-4 lg:px-8 px mx-auto">
       <div className="container flex h-16 items-center justify-between">
@@ -19,27 +20,39 @@ export default function Header() {
         {/* Navigation items on the right */}
         <div className="flex items-center gap-6"> {/* Use a flex container for the right-aligned items */}
             <div className="flex items-center gap-6">
-                {isLoggedOut ? ( <NavLink href="/#pricing">
-            <h1 className="text-xl font-medium">Pricing</h1>
-          </NavLink>):(<NavLink href="/dashboard">
-                <h1 className="text-xl font-medium"> Summaries</h1>
-          </NavLink>)}
+                  <SignedOut>
+                    <NavLink href="/#pricing">
+                      <h1 className="text-xl font-medium">Pricing</h1>
+                    </NavLink>
+                  </SignedOut>
+                  <SignedIn>
+                    <NavLink href="/dashboard">
+                      <h1 className="text-xl font-medium"> Summaries</h1>
+                    </NavLink>
+                  </SignedIn>
            
           
             </div>
             <div className="flex items-center gap-6">
-                {isLoggedOut ? (<NavLink href="/#sign-in">
-            <h1 className="text-xl font-medium">Sign In</h1>
-          </NavLink> ) : (<div>
-            <NavLink href="/upload">
-            <h1 className="text-xl font-medium">Upload Pdf</h1>
-          </NavLink>
-          <div className="flex items-center gap-2">
-            <div >Pro</div>
-            <Button>Sign Out</Button>
-          </div>
-                    
-          </div>)}
+                <SignedOut>
+                  <NavLink href="/#sign-in">
+                  <h1 className="text-xl font-medium">Sign In</h1>
+                  </NavLink>
+                </SignedOut>
+                <SignedIn>
+                    <div>
+                    <NavLink href="/upload">
+                      <h1 className="text-xl font-medium">Upload Pdf</h1>
+                    </NavLink>
+                    <div className="flex items-center gap-2">
+                    <div >Pro</div>
+                    <SignedIn>
+                      <UserButton/>
+                    </SignedIn>
+                  </div>
+                            
+                  </div>
+                </SignedIn>
             
             
           
