@@ -35,20 +35,21 @@ export default function Header() {
             </div>
             <div className="flex items-center gap-6">
                 <SignedOut>
-                  <NavLink href="/#sign-in">
+                  <NavLink href="/sign-in">
                   <h1 className="text-xl font-medium">Sign In</h1>
                   </NavLink>
                 </SignedOut>
                 <SignedIn>
-                    <div>
+                    <div className='flex items-center gap-4'>
                     <NavLink href="/upload">
                       <h1 className="text-xl font-medium">Upload Pdf</h1>
                     </NavLink>
-                    <div className="flex items-center gap-2">
-                    <div >Pro</div>
+                    <div className="flex  items-center gap-2">
+                    
                     <SignedIn>
                       <UserButton/>
                     </SignedIn>
+                    <div >Pro</div>
                   </div>
                             
                   </div>
