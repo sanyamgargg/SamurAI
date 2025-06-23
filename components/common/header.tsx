@@ -7,7 +7,7 @@ import { SignedIn, SignedOut, SignIn, UserButton } from '@clerk/nextjs';
 export default function Header() {
     
   return (
-    <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center py-4 lg:px-8 px mx-auto">
+    <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center  lg:px-8 px mx-auto">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo/Title on the left */}
         <NavLink href="/">

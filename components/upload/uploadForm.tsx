@@ -1,6 +1,10 @@
 "use client"
+import { useUploadThing } from "@/utils/uploadthing";
 import UploadFormInput from "./uploadFormInput";
 import {z} from "zod"
+import { useSonner } from "sonner";
+import { title } from "process";
+import {toast} from "sonner" ;
 
 const schema = z.object({
     file: z.instanceof(File,{message: 'Invalid file '})
@@ -9,7 +13,22 @@ const schema = z.object({
 }) ;
 
 export default function UploadForm() {
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+    
+    const {startUpload, isUploading} = useUploadThing('pdfUploader',{
+        onClientUploadComplete: (res) => {
+            console.log('Upload complete', res) ;
+        },
+        onUploadError: (error: Error) => {
+            console.log('Upload error', error)
+            toast.error('Upload failed', {
+                description: error.message,
+            }) ;
+            return ;
+        }
+    }) ;
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log("Form submitted");
         const formData = new FormData(e.currentTarget) ;
@@ -19,11 +38,31 @@ export default function UploadForm() {
         const validatedFields = schema.safeParse({file}) ;
 
         if(!validatedFields.success){
-            console.log(validatedFields.error.flatten().fieldErrors.file?.[0] ?? 'Invalid file') ;
+            toast.error('Invalid file',{
+                description: validatedFields.error.flatten().fieldErrors.file?.[0] ?? 'Invalid file',
+            }) ;
             return ;
         }
+
+        toast.success('Uploading file...',{
+            description: 'Please wait while we upload your file',
+        }) ;
+        
         //schema with zod
         //upload the file using uploadthing
+        const resp = await startUpload([file]) ;
+        if(!resp || resp.length === 0){
+            toast.error('Upload failed',{
+                description: 'Please try again',
+            }) ;
+            return ;
+        }
+
+        toast.success('File uploaded successfully',{
+            description: 'File is being processed',
+        }) ;
+        
+
         //parse the pdf using langchain
         //summarize the pdf using AI
         //save the summary to the database
