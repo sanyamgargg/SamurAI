@@ -1,78 +1,80 @@
-"use server" ;
+"use server";
 
 import { fetchAndExtractText } from "@/lib/langchain";
-import { generateSummary as generateSummaryOpenAI } from "@/lib/openai";
+import { generateSummaryGemini } from "@/lib/geminiai";
 
-    export async function generateSummary(uploadResponse : [{
-    serverData:{
-        userId: string ;
+type UploadResponse = {
+    serverData: {
+        userId: string;
         file: {
-            url: string ;
-            name: string ;
+            url: string;
+            name: string;
+        };
+    };
+};
+
+export async function generateSummary(uploadResponse: UploadResponse[]) {
+    if (!uploadResponse || uploadResponse.length === 0) {
+        return {
+            success: false,
+            error: "No file uploaded",
+            data: null,
         };
     }
-}]) {
-    if(!uploadResponse){
+
+    const {
+        serverData: {
+            userId,
+            file: { url: pdfUrl, name: pdfName },
+        },
+    } = uploadResponse[0];
+
+    if (!pdfUrl || !pdfName) {
         return {
             success: false,
-            error: 'No file uploaded',
+            error: "Invalid file information",
             data: null,
-        }
+        };
     }
 
-    const {serverData: {
-            userId, 
-            file : {url:pdfUrl,name:pdfName}
+    try {
+        const pdfText = await fetchAndExtractText(pdfUrl);
+        console.log("PDF text snippet:", pdfText?.slice(0, 500));
+
+        try {
+            const summary = await generateSummaryGemini(pdfText);
+
+            if (!summary) {
+                return {
+                    success: false,
+                    error: "Failed to generate summary",
+                    data: null,
+                };
             }
-        } = uploadResponse[0] ;
-    
-    if(!pdfUrl || !pdfName){
-        return {
-            success: false,
-            error: 'No file uploaded',
-            data: null,
-        }
-    }
 
-    try{
-        const pdfText = await fetchAndExtractText(pdfUrl) ;
-        console.log('PDF text', pdfText) ;
+            console.log("Summary:", summary);
 
-        let summary ;
-
-        try{
-            summary = await generateSummaryOpenAI(pdfText) ;
-            console.log('Summary', summary) ;
-        }catch(error){
-            console.error('Error generating summary', error) ;
+            return {
+                success: true,
+                message: "Summary generated successfully",
+                data: { summary },
+            };
+        } catch (error: unknown) {
+            const err = error as Error;
+            console.error("Error while calling generateSummaryGemini:", err.message);
             return {
                 success: false,
-            }
-            // call gemini api here
-        }
-
-        if(!summary){
-            return {
-                success: false,
-                error: 'Failed to generate summary',
+                error: "Failed to generate summary",
                 data: null,
-            }
+            };
         }
-
-        return {
-            success: true,
-            message: 'Summary generated successfully',
-            data: {
-                summary,
-            }
-        }
-
-    }catch(error){
-        console.error('Error parsing PDF', error) ;
+    } catch (error: unknown) {
+        const err = error as Error;
+        console.error("Error extracting text from PDF:", err.message);
         return {
             success: false,
-        }
+            error: "Failed to extract text",
+            data: null,
+        };
     }
-    
-    
 }
