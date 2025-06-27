@@ -2,6 +2,8 @@ import BgGradient from "@/components/common/bggradient";
 import UploadForm from "@/components/upload/uploadForm";
 import UploadHeader from "@/components/upload/uploadHeader";
 
+
+
 export default function Page() {
     return (
         <section className="min-h-screen py-20">
