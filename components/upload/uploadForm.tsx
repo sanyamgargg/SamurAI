@@ -102,7 +102,7 @@ export default function UploadForm() {
                     }) ;
                     formRef.current?.reset() ;
                     setIsLoading(false) ;
-                    router.push(`/summary/${storeResult.data.id}`) ;
+                    router.push(`/summaries/${storeResult.data.id}`) ;
                 } else {
                     console.log('Failed to save summary to DB', storeResult) ;
                     toast.error('Failed to save summary to DB',{
