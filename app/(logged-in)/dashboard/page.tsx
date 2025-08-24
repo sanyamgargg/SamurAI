@@ -5,6 +5,7 @@ import { ArrowRight, Plus } from "lucide-react";
 import SummaryCard from "@/components/summaries/summary-card";
 import { getSummaries } from "@/lib/summaries";
 import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 import EmptySummaries from "@/components/summaries/empty-summaries";
 
 export default async function DashboardPage() {

@@ -120,7 +120,7 @@ export async function saveSummaryToDB({ pdfUrl, summary, pdfName }: { pdfUrl: st
 
         const formattedTitle = formatFileNameAsTitle(pdfName); // Use pdfName to format the title
 
-        await savedPdfSummary({
+        const savedSummary = await savedPdfSummary({
             userId,
             fileUrl: pdfUrl,
             summary,
@@ -134,8 +134,7 @@ export async function saveSummaryToDB({ pdfUrl, summary, pdfName }: { pdfUrl: st
             data: {
                 summary,
                 title: formattedTitle, // Return the formatted title
-                // Consider returning an ID if your insert operation returns one, e.g., for redirection
-                // id: savedSummary.id,
+                id: savedSummary.id,
             }
         }
 

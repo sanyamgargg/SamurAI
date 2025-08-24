@@ -7,6 +7,7 @@ import { title } from "process"; // This import seems unused and potentially pro
 import {toast} from "sonner" ;
 import { generateSummary , saveSummaryToDB} from "@/actions/upload-actions";
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
     file: z.instanceof(File,{message: 'Invalid file '})
@@ -17,6 +18,7 @@ const schema = z.object({
 export default function UploadForm() {
     const formRef = useRef<HTMLFormElement>(null) ;
     const [isLoading, setIsLoading] = useState(false) ;
+    const router = useRouter();
 
     const {startUpload, isUploading} = useUploadThing('pdfUploader',{
         onClientUploadComplete: (res) => {
@@ -94,13 +96,13 @@ export default function UploadForm() {
                     pdfName,
                 }) ;
 
-                if(storeResult.success){
+                if(storeResult.success && storeResult.data?.id){
                     toast.success('Summary generated successfully',{
                         description: 'Redirecting to summary page...',
                     }) ;
                     formRef.current?.reset() ;
                     setIsLoading(false) ;
-                    router.push(`/summary/${storeResult.data.id}`) ; // Uncomment when router is available and data.id is returned
+                    router.push(`/summary/${storeResult.data.id}`) ;
                 } else {
                     console.log('Failed to save summary to DB', storeResult) ;
                     toast.error('Failed to save summary to DB',{

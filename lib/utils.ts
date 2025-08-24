@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatFileName(url: string) {
-    const fileName = url.split("/").pop();
+    const fileName = url.split("/").pop() || "";
     return fileName
     .replace(/-/g, " ")
     .replace(/\.[^/.]+$/, "")

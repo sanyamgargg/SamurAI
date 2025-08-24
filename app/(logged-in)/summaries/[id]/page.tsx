@@ -33,7 +33,7 @@ export default async function SummaryPage({params}: {params: Promise<{id: string
     return(
         <div className="relative isolate min-h-screen bg-linear-to-b from-gray-900 via-gray-950 to-gray-900">
             {/* Background gradient for visual appeal */}
-            <BgGradient className="fixed inset-0 -z-10 bg-gradient-to-b from-[#0e0e10] via-[#18181b] to-[#0e0e10] " />  
+            <BgGradient />  
             
             <div className="container mx-auto flex flex-col gap-4">
                 <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-12 lg:py-24">
