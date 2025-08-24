@@ -81,9 +81,7 @@ export default function UploadForm() {
             }
 
             if(data && data.summary){ // Check for data and summary
-                toast.success('Summary generated successfully',{
-                    description: 'Saving summary to database...',
-                }) ;
+                
 
                 // The pdfName is available from resp[0].serverData.file.name
                 const pdfUrl = resp[0].serverData.file.url;
@@ -97,12 +95,12 @@ export default function UploadForm() {
                 }) ;
 
                 if(storeResult.success){
-                    toast.success('Summary saved to DB successfully',{
+                    toast.success('Summary generated successfully',{
                         description: 'Redirecting to summary page...',
                     }) ;
                     formRef.current?.reset() ;
                     setIsLoading(false) ;
-                    // router.push(`/summary/${storeResult.data.id}`) ; // Uncomment when router is available and data.id is returned
+                    router.push(`/summary/${storeResult.data.id}`) ; // Uncomment when router is available and data.id is returned
                 } else {
                     console.log('Failed to save summary to DB', storeResult) ;
                     toast.error('Failed to save summary to DB',{

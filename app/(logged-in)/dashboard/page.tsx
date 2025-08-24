@@ -5,6 +5,7 @@ import { ArrowRight, Plus } from "lucide-react";
 import SummaryCard from "@/components/summaries/summary-card";
 import { getSummaries } from "@/lib/summaries";
 import { currentUser } from "@clerk/nextjs/server";
+import EmptySummaries from "@/components/summaries/empty-summaries";
 
 export default async function DashboardPage() {
     const user  = await currentUser();
@@ -35,21 +36,24 @@ export default async function DashboardPage() {
                 
                 
                 </div>
-                <div className="mb-6 w-full">
-                    <div className = "bg-grey-50 text-red-500 p-2 rounded-md  hover:text-white border-2">
-                        <p className="text-sm text-red-400 gap-2 flex items-center justify-center" >You have reached limit of 5 uploads on the Basic Plan.
-                            <Link href="/#pricing" className="text-red-400 hover:underline flex items-center gap-2 ">Click here to Upgrade to pro <ArrowRight className=" w-4 h-4 inline-block border-2 rounded-full"></ArrowRight></Link>
-                            
-                        </p>
-                    </div>
+                    {summaries.length === uploadLimit && (
+                      <div className="mb-6 w-full">
+                      <div className = "bg-grey-50 text-red-500 p-2 rounded-md  hover:text-white border-2">
+                          <p className="text-sm text-red-400 gap-2 flex items-center justify-center" >You have reached limit of 5 uploads on the Basic Plan.
+                              <Link href="/#pricing" className="text-red-400 hover:underline flex items-center gap-2 ">Click here to Upgrade to pro <ArrowRight className=" w-4 h-4 inline-block border-2 rounded-full"></ArrowRight></Link>
+                              
+                          </p>
+                      </div>
                 </div>
+                )}
+                {summaries.length === 0 ? <EmptySummaries /> : (
                 <div className="grid grid-cols-1  sm:gap-6 md:grid-cols-2 lg:grid-cols-3 sm:px-0 gap-4 w-full">
                     {summaries.map((summary, index) => (
                         <SummaryCard key={index} summary={summary}/>
                     ))}     
 
-                </div>
-                
+                    </div>
+                )}
             
             </div>
         </main>

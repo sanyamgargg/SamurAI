@@ -11,10 +11,10 @@ export default function Header() {
       <div className="container flex h-16 items-center justify-between">
         {/* Logo/Title on the left */}
         <NavLink href="/">
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            <FileText className="w-6 h-6 lg:w-8 lg:h-8 text-primary hover:rotate-12 transition-transform duration-300" />
+          <div className="text-2xl font-bold flex items-center gap-2 text-gray-300">
+            <FileText className="w-6 h-6 lg:w-8 lg:h-8  hover:rotate-12 transition-transform duration-300 text-gray-300" />
             samurAI
-          </h1>
+          </div>
         </NavLink>
 
         {/* Navigation items on the right */}
@@ -22,7 +22,7 @@ export default function Header() {
             <div className="flex items-center gap-6">
                   <SignedOut>
                     <NavLink href="/#pricing">
-                      <h1 className="text-xl font-medium">Pricing</h1>
+                      <div className="text-xl font-medium">Pricing</div>
                     </NavLink>
                   </SignedOut>
                   <SignedIn>
@@ -36,7 +36,7 @@ export default function Header() {
             <div className="flex items-center gap-6">
                 <SignedOut>
                   <NavLink href="/sign-in">
-                  <h1 className="text-xl font-medium">Sign In</h1>
+                  <div className="text-xl font-medium">Sign In</div>
                   </NavLink>
                 </SignedOut>
                 <SignedIn>

@@ -96,7 +96,8 @@ async function savedPdfSummary({ userId, fileUrl, summary, title, fileName }: Sa
    try {
        const sql = await getDBConnection() ;
        // Ensure your table columns match these names and types
-       await sql`INSERT INTO pdf_summaries (user_id, original_file_url, summary_text, title, file_name) VALUES (${userId}, ${fileUrl}, ${summary}, ${title}, ${fileName})` ;
+       const [savedSummary] = await sql`INSERT INTO pdf_summaries (user_id, original_file_url, summary_text, title, file_name) VALUES (${userId}, ${fileUrl}, ${summary}, ${title}, ${fileName}) RETURNING id, summary_text` ;
+       return savedSummary ;
        console.log("Successfully inserted PDF summary into DB for user:", userId);
    } catch (error: unknown) {
        const err = error as Error;
