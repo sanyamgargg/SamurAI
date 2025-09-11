@@ -18,7 +18,7 @@ export default function HeroSection() {
             <h2 className="text-lg text-muted-foreground text-center">Get a beautiful summary of your PDF in seconds.</h2>
             <Button variant={"link"} className="mt-4 items-center flex gap-2 text-white
              border-white border-2 ">
-                <NavLink className="flex items-center gap-2" href="/#pricing">
+                <NavLink className="flex items-center gap-2" href="/sign-in">
                 <span>Try Now</span>
                 <ArrowRight className="animate-pulse"></ArrowRight>
                 </NavLink>
